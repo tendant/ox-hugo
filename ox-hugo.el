@@ -846,7 +846,8 @@ newer."
                    (:hugo-series "HUGO_SERIES" nil nil newline)
                    ;; slug
                    (:hugo-slug "HUGO_SLUG" nil nil)
-                   ;; taxomonomies - tags, categories
+                   ;; taxonomies - tags, categories
+                   (:hugo-taxonomy-section "HUGO_TAXONOMY_SECTION" nil nil)
                    (:hugo-tags "HUGO_TAGS" nil nil newline)
                    ;; #+hugo_tags are used to set the post tags in Org
                    ;; files written for file-based exports.  But for
@@ -3314,6 +3315,7 @@ INFO is a plist used as a communication channel."
                  (outputs . ,outputs)
                  (series . ,(org-hugo--delim-str-to-list (plist-get info :hugo-series)))
                  (slug . ,(plist-get info :hugo-slug))
+                 (taxonomy . ,(plist-get info :hugo-taxonomy-section))
                  (tags . ,tags)
                  (categories . ,categories)
                  (type . ,(plist-get info :hugo-type))
@@ -3582,6 +3584,10 @@ are \"toml\" and \"yaml\"."
               (when (org-string-nw-p nested-keyval-str)
                 (setq nested-string (concat nested-string nested-parent-key-str
                                             nested-keyval-str)))))
+           ((string= key "taxonomy")
+            (setq front-matter
+                  (concat front-matter
+                          (format "%s\n" value))))
            (t
             (setq front-matter
                   (concat front-matter
@@ -3616,6 +3622,7 @@ are \"toml\" and \"yaml\"."
                      "KEYWORDS"
                      "HUGO_MARKUP"
                      "HUGO_OUTPUTS"
+                     "HUGO_TAXONOMY_SECTION"
                      "HUGO_TAGS"
                      "HUGO_CATEGORIES"
                      "HUGO_SERIES"
