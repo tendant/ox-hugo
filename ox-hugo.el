@@ -2169,7 +2169,7 @@ and rewrite link paths to make blogging more seamless."
                 (format "![%s](%s)" alt-text source)))
              (;; Else if the image is inline (with non-alt-text
               ;; attributes), use HTML <img> tag syntax.
-              inline-image
+              t ;; inline-image  ; FIXME: use inline-image all the time for Zola
               ;; The "target" and "rel" attributes would be meant for <a>
               ;; tags. So do not pass them to the <img> tag.
               (plist-put attr :target nil)
